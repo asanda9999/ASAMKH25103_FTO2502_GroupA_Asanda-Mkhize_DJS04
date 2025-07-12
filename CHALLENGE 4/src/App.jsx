@@ -58,7 +58,13 @@ export default function App() {
     "title-desc": (a, b) => b.title.localeCompare(a.title),
   };
 
-  
+    const sortedPodcasts = filteredPodcasts.slice().sort(
+    sortFunctions[sortBy] || (() => 0)
+  );
+
+    // Pagination logic
+  const visiblePodcasts = sortedPodcasts.slice(0, page * PODCASTS_PER_PAGE);
+  const hasMore = sortedPodcasts.length > visiblePodcasts.length;
 
 
   return (
