@@ -38,7 +38,7 @@ export default function App() {
   useEffect(() => {
     fetchPodcasts(setPodcasts, setError, setLoading);
   }, []);
-  
+
    useEffect(() => {
     setPage(1);
   }, [search, selectedGenre, sortBy]);
@@ -115,10 +115,16 @@ export default function App() {
           </div>
         )}
 
-        {!loading && !error && (
+      {!loading && !error && (
           <>
             <PodcastGrid podcasts={visiblePodcasts} genres={genres} />
-      
+            {hasMore && (
+              <div className="load-more-container">
+                <button className="load-more-btn" onClick={() => setPage(page + 1)}>
+                  Load More
+                </button>
+              </div>
+            )}
           </>
         )}
       </main>
