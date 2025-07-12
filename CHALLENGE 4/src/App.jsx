@@ -21,6 +21,8 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState(() => getPersisted("search", ""));
+  const [selectedGenre, setSelectedGenre] = useState(() => getPersisted("selectedGenre", "all"));
+  const [sortBy, setSortBy] = useState(() => getPersisted("sortBy", "recent"));
 
 
   useEffect(() => {
@@ -38,6 +40,13 @@ export default function App() {
     podcast.title.toLowerCase().includes(search.toLowerCase())
   );
 
+    // Filter by genre
+  if (selectedGenre !== "all") {
+    filteredPodcasts = filteredPodcasts.filter(podcast =>
+      podcast.genres.includes(Number(selectedGenre))
+    );
+  }
+
 
   return (
     <>
@@ -53,6 +62,17 @@ export default function App() {
           {genres.map(genre => (
             <option key={genre.id} value={genre.id}>{genre.title}</option>
           ))}
+        </select>
+        <select
+          id="sort-select"
+          value={sortBy}
+          onChange={e => setSortBy(e.target.value)}
+        >
+          <option value="recent">Recently Updated</option>
+          <option value="popular">Most Popular</option>
+          <option value="newest">Newest</option>
+          <option value="title-asc">Title (A-Z)</option>
+          <option value="title-desc">Title (Z-A)</option>
         </select>
       </section>
       <main>
