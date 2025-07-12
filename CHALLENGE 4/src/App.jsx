@@ -23,8 +23,8 @@ export default function App() {
   const [search, setSearch] = useState(() => getPersisted("search", ""));
   const [selectedGenre, setSelectedGenre] = useState(() => getPersisted("selectedGenre", "all"));
   const [sortBy, setSortBy] = useState(() => getPersisted("sortBy", "recent"));
+  const [page, setPage] = useState(1);
   const PODCASTS_PER_PAGE = 8;
-
 
   useEffect(() => {
     localStorage.setItem("search", search);
@@ -35,27 +35,29 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("sortBy", sortBy);
   }, [sortBy]);
+
+  // Reset to first page when filters/search/sort change
+  useEffect(() => {
+    setPage(1);
+  }, [search, selectedGenre, sortBy]);
+
   useEffect(() => {
     fetchPodcasts(setPodcasts, setError, setLoading);
   }, []);
-
-   useEffect(() => {
-    setPage(1);
-  }, [search, selectedGenre, sortBy]);
 
   // Filter podcasts by search query (case-insensitive, matches any part of the title)
   let filteredPodcasts = podcasts.filter(podcast =>
     podcast.title.toLowerCase().includes(search.toLowerCase())
   );
 
-    // Filter by genre
+  // Filter by genre
   if (selectedGenre !== "all") {
     filteredPodcasts = filteredPodcasts.filter(podcast =>
       podcast.genres.includes(Number(selectedGenre))
     );
   }
 
-    const sortFunctions = {
+  const sortFunctions = {
     recent: (a, b) => new Date(b.updated) - new Date(a.updated),
     popular: (a, b) => (b.seasons || 0) - (a.seasons || 0),
     newest: (a, b) => b.id.localeCompare(a.id),
@@ -63,14 +65,13 @@ export default function App() {
     "title-desc": (a, b) => b.title.localeCompare(a.title),
   };
 
-    const sortedPodcasts = filteredPodcasts.slice().sort(
+  const sortedPodcasts = filteredPodcasts.slice().sort(
     sortFunctions[sortBy] || (() => 0)
   );
 
-    // Pagination logic
+  // Pagination logic
   const visiblePodcasts = sortedPodcasts.slice(0, page * PODCASTS_PER_PAGE);
   const hasMore = sortedPodcasts.length > visiblePodcasts.length;
-
 
   return (
     <>
@@ -115,7 +116,7 @@ export default function App() {
           </div>
         )}
 
-      {!loading && !error && (
+        {!loading && !error && (
           <>
             <PodcastGrid podcasts={visiblePodcasts} genres={genres} />
             {hasMore && (
