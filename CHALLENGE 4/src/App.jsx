@@ -50,6 +50,16 @@ export default function App() {
     );
   }
 
+    const sortFunctions = {
+    recent: (a, b) => new Date(b.updated) - new Date(a.updated),
+    popular: (a, b) => (b.seasons || 0) - (a.seasons || 0),
+    newest: (a, b) => b.id.localeCompare(a.id),
+    "title-asc": (a, b) => a.title.localeCompare(b.title),
+    "title-desc": (a, b) => b.title.localeCompare(a.title),
+  };
+
+  
+
 
   return (
     <>
