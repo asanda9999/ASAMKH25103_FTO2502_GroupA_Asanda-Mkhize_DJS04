@@ -23,6 +23,7 @@ export default function App() {
   const [search, setSearch] = useState(() => getPersisted("search", ""));
   const [selectedGenre, setSelectedGenre] = useState(() => getPersisted("selectedGenre", "all"));
   const [sortBy, setSortBy] = useState(() => getPersisted("sortBy", "recent"));
+  const PODCASTS_PER_PAGE = 8;
 
 
   useEffect(() => {
