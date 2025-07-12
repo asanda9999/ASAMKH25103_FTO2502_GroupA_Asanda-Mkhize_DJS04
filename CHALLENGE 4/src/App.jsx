@@ -38,6 +38,10 @@ export default function App() {
   useEffect(() => {
     fetchPodcasts(setPodcasts, setError, setLoading);
   }, []);
+  
+   useEffect(() => {
+    setPage(1);
+  }, [search, selectedGenre, sortBy]);
 
   // Filter podcasts by search query (case-insensitive, matches any part of the title)
   let filteredPodcasts = podcasts.filter(podcast =>
