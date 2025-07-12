@@ -28,9 +28,12 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("search", search);
   }, [search]);
-
-
-
+  useEffect(() => {
+    localStorage.setItem("selectedGenre", selectedGenre);
+  }, [selectedGenre]);
+  useEffect(() => {
+    localStorage.setItem("sortBy", sortBy);
+  }, [sortBy]);
   useEffect(() => {
     fetchPodcasts(setPodcasts, setError, setLoading);
   }, []);
