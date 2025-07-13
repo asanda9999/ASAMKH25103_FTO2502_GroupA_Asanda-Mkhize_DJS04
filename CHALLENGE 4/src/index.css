@@ -180,7 +180,7 @@ body {
   font-size: 1.1rem;
   border-radius: 6px;
   border: none;
-  background: white;
+  background: #e0e0e0; /* grey background */
   color: black;
   font-weight: 600;
   cursor: pointer;
@@ -188,7 +188,7 @@ body {
   transition: none;
 }
 .load-more-btn:hover, .load-more-btn:focus {
-  background: white;
+  background: #e0e0e0;
   color: black;
   box-shadow: none;
   cursor: pointer;
