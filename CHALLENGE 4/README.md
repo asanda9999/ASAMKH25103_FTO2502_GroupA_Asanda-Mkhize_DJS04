@@ -1,90 +1,117 @@
-# DSJ04 React Podcast App: Search, Sort, Filter, and Pagination
+# 🎙️ Podcast Explorer
 
-## Project Overview
+A modern, responsive React application for discovering, searching, and filtering podcasts by genre, popularity, and more. Podcasts are fetched live from a public API, and the interface is designed for ease of use and a great user experience.
 
-In this project, you will build an advanced podcast browsing experience that allows users to dynamically **search**, **sort**, **filter**, and **paginate** a list of podcast shows. The goal is to create an intuitive interface that responds to user input in real time and maintains a consistent, seamless experience throughout navigation.
+---
 
-This project will test your ability to manage complex UI state, synchronise multiple user interactions, and maintain clean, scalable code.
+## 🚀 Features
 
-## Core Objectives
+- **Live Podcast Data:** Fetches and displays up-to-date podcasts from a remote API.
+- **Search:** Instantly search podcasts by title.
+- **Genre Filtering:** Filter podcasts by a wide range of genres.
+- **Sorting:** Sort podcasts by most recent, most popular, newest, or alphabetically.
+- **Pagination:** Load more podcasts as you scroll.
+- **Responsive UI:** Clean, modern design that works on all devices.
+- **Persistent Filters:** Your search, genre, and sort preferences are saved between sessions.
 
-### Search Functionality
+---
 
-- Implement a flexible search that matches any part of the podcast title.
-- Results should update dynamically as the user types or upon submission.
-- Ensure that search results integrate with current filters, sorts, and pagination without resetting them.
+## 🛠️ Getting Started
 
-### Sorting Options
+### Prerequisites
 
-- Allow sorting podcasts by:
-  - Newest first (based on last updated date).
-  - Title A–Z and Z–A.
-- Sorting must work in tandem with any search or filter criteria.
+- [Node.js](https://nodejs.org/) (v16 or higher recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
 
-### Filtering
+### Installation
 
-- Enable genre-based filtering using a dropdown or multi-select input.
-- Ensure filters work alongside current search, sort, and pagination state.
-- Maintain selected filters when navigating between pages or updating the list.
+1. **Clone the repository** (if you haven't already):
+   ```sh
+   git clone <your-repo-url>
+   cd ASAMKH25103_FTO2502_GroupA_Asanda-Mkhize_DJS04/CHALLENGE 4
+   ```
 
-### Pagination
+2. **Install dependencies:**
+   ```sh
+   npm install
+   ```
 
-- Display podcasts in manageable chunks using pagination, load-more, or infinite scroll.
-- Ensure that pagination respects the currently active search, filter, and sort state.
-- Keep all UI selections intact while navigating pages.
+3. **Install FontAwesome packages** (required for icons):
+   ```sh
+   npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
+   ```
 
-### State Synchronisation
+---
 
-- Maintain a centralised and cleanly organised state using React state, context, or a state management library.
-- Ensure that all controls (search, sort, filter, pagination) reflect changes immediately and stay in sync.
+## 🏃 Running the App
 
-### Code Quality & Maintainability
+Start the development server:
+```sh
+npm run dev
+```
+- The terminal will display a local address (e.g., `http://localhost:5173`).  
+- Open this URL in your browser to use the app.
 
-- Use JSDoc to document all major functions and modules.
-- Apply consistent formatting and naming conventions.
-- Keep logic modular and components reusable.
+---
 
-### API Endpoints
+## 🖱️ How to Use
 
-Data can be called via a `fetch` request to the following endpoint.
+- **Search:** Click the magnifying glass icon in the header to reveal the search bar. Type to filter podcasts by title.
+- **Filter by Genre:** Use the "Filter by" dropdown to select a genre.
+- **Sort:** Use the sort dropdown to order podcasts by recent updates, popularity, newest, or title.
+- **Load More:** Click "Load More" at the bottom to see additional podcasts.
+- **Persistent Preferences:** Your search, genre, and sort choices are saved automatically and restored on your next visit.
 
-| URL                               |                             |
-| --------------------------------- | --------------------------- |
-| `https://podcast-api.netlify.app` | Returns an array of PREVIEW |
+---
 
-### Genre Titles
+## 🧩 Project Structure
 
-Since the podcast preview information fetched from the API only exposes genres by their IDs, the actual genre details (such as titles) are not included in the API response. These details are instead provided in the data.js file found in this repository. Therefore, it is recommended that you include the mapping between genre ID values and their corresponding titles in your code using this file.
+```
+src/
+  api/            # API calls (fetchPodcasts.js)
+  assets/         # Static assets (e.g., images)
+  components/     # React components (Header, PodcastCard, PodcastGrid)
+  utils/          # Utility functions (formatDate.js)
+  data.js         # Genre data
+  App.jsx         # Main app logic
+  index.css       # Styles
+  main.jsx        # Entry point
+```
 
-## Project Deliverables
+---
 
-- A fully functional React app that:
+## 🌐 Data Source
 
-  - Fetches and displays podcast data.
-  - Allows live searching, sorting, filtering, and pagination.
-  - Maintains consistent state across all UI interactions.
+Podcasts are fetched from:  
+[https://podcast-api.netlify.app/shows](https://podcast-api.netlify.app/shows)
 
-- **Clean Codebase** with:
+Genres are defined locally in `src/data.js`.
 
-  - Reusable, modular components.
-  - Clear and consistent formatting across all files.
-  - JSDoc comments for functions/modules.
+---
 
-- **README.md** with:
+## 📝 Customization
 
-  - Project overview and purpose.
-  - Setup and usage instructions.
-  - Descriptions of key features (search, filter, sort, pagination).
+- **Add new genres:** Edit `src/data.js`.
+- **Change styles:** Edit `src/index.css`.
+- **API logic:** See `src/api/fetchPodcasts.js`.
 
-- **Version Control (GitHub)**:
-  - Clear, meaningful commit messages.
-  - Incremental commits reflecting development progress.
+---
 
-## Success Criteria
+## ❓ Troubleshooting
 
-- No console errors or broken UI on load.
-- All features work correctly and together without losing state.
-- Clean, maintainable codebase with documentation.
-- A polished user experience with responsive layout and real-time updates.
+- **FontAwesome Import Error:**  
+  If you see an error about `@fortawesome/react-fontawesome`, make sure you ran:
+  ```sh
+  npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
+  ```
+
+- **Port Already in Use:**  
+  If `npm run dev` fails due to a port conflict, either close the other app or change the port in `vite.config.js`.
+
+---
+
+## 📄 License
+
+This project is for educational purposes.
 
 ---

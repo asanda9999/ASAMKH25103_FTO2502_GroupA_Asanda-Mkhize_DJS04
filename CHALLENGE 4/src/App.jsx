@@ -17,6 +17,7 @@ import Header from "./components/Header";
 const getPersisted = (key, fallback) => localStorage.getItem(key) || fallback;
 
 export default function App() {
+  // --- STATE MANAGEMENT ---
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,6 +27,8 @@ export default function App() {
   const [page, setPage] = useState(1);
   const PODCASTS_PER_PAGE = 8;
 
+  // --- PERSIST STATE TO LOCALSTORAGE ---
+  // Save search, genre, and sortBy to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("search", search);
   }, [search]);
@@ -36,46 +39,55 @@ export default function App() {
     localStorage.setItem("sortBy", sortBy);
   }, [sortBy]);
 
-  // Reset to first page when filters/search/sort change
+  // --- RESET PAGE ON FILTER/SORT/SEARCH CHANGE ---
   useEffect(() => {
     setPage(1);
   }, [search, selectedGenre, sortBy]);
 
+  // --- FETCH PODCAST DATA ON MOUNT ---
   useEffect(() => {
     fetchPodcasts(setPodcasts, setError, setLoading);
   }, []);
 
+  // --- FILTERING LOGIC ---
   // Filter podcasts by search query (case-insensitive, matches any part of the title)
   let filteredPodcasts = podcasts.filter(podcast =>
     podcast.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Filter by genre
+  // Further filter by selected genre (if not 'all')
   if (selectedGenre !== "all") {
     filteredPodcasts = filteredPodcasts.filter(podcast =>
       podcast.genres.includes(Number(selectedGenre))
     );
   }
 
+  // --- SORTING LOGIC ---
+  // Define sort functions for each sort option
   const sortFunctions = {
-    recent: (a, b) => new Date(b.updated) - new Date(a.updated),
-    popular: (a, b) => (b.seasons || 0) - (a.seasons || 0),
-    newest: (a, b) => b.id.localeCompare(a.id),
-    "title-asc": (a, b) => a.title.localeCompare(b.title),
-    "title-desc": (a, b) => b.title.localeCompare(a.title),
+    recent: (a, b) => new Date(b.updated) - new Date(a.updated), // Most recently updated first
+    popular: (a, b) => (b.seasons || 0) - (a.seasons || 0),     // Most seasons first
+    newest: (a, b) => b.id.localeCompare(a.id),                 // Newest by ID
+    "title-asc": (a, b) => a.title.localeCompare(b.title),     // Title A-Z
+    "title-desc": (a, b) => b.title.localeCompare(a.title),    // Title Z-A
   };
 
+  // Sort the filtered podcasts
   const sortedPodcasts = filteredPodcasts.slice().sort(
     sortFunctions[sortBy] || (() => 0)
   );
 
-  // Pagination logic
+  // --- PAGINATION LOGIC ---
+  // Only show podcasts for the current page
   const visiblePodcasts = sortedPodcasts.slice(0, page * PODCASTS_PER_PAGE);
   const hasMore = sortedPodcasts.length > visiblePodcasts.length;
 
+  // --- RENDER ---
   return (
     <>
+      {/* Header with search bar */}
       <Header search={search} setSearch={setSearch} />
+      {/* Filter and sort controls */}
       <section className="filter-section">
         <label htmlFor="genre-select">Filter by:</label>
         <select
@@ -101,6 +113,7 @@ export default function App() {
         </select>
       </section>
       <main>
+        {/* Loading spinner */}
         {loading && (
           <div className="message-container">
             <div className="spinner"></div>
@@ -108,6 +121,7 @@ export default function App() {
           </div>
         )}
 
+        {/* Error message */}
         {error && (
           <div className="message-container">
             <div className="error">
@@ -116,11 +130,13 @@ export default function App() {
           </div>
         )}
 
+        {/* Main podcast grid and Load More button */}
         {!loading && !error && (
           <>
             <PodcastGrid podcasts={visiblePodcasts} genres={genres} />
             {hasMore && (
               <div className="load-more-container">
+                {/* Load More button increments the page to show more podcasts */}
                 <button className="load-more-btn" onClick={() => setPage(page + 1)}>
                   Load More
                 </button>
